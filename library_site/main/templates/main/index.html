@@ -1,0 +1,41 @@
+﻿{% extends "main/base.html" %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="display-4">Добро пожаловать в библиотеку!</h1>
+    <p class="lead">Читайте, бронируйте и управляйте своими книгами онлайн.</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Каталог книг</h5>
+                <p class="card-text">Просматривайте книги, их авторов и описания. Категории и фильтры доступны.</p>
+                <a href="/books/" class="btn btn-primary">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mt-4 mt-md-0">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Регистрация и вход</h5>
+                <p class="card-text">Создайте учётную запись или войдите, чтобы бронировать книги.</p>
+                <a href="/register/" class="btn btn-success me-2">Регистрация</a>
+                <a href="/login/" class="btn btn-outline-primary">Вход</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mt-4 mt-md-0">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Связаться с нами</h5>
+                <p class="card-text">Остались вопросы? Напишите через форму обратной связи.</p>
+                <a href="/contact/" class="btn btn-secondary">Контакты</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
