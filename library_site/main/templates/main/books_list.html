@@ -3,37 +3,43 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h1 class="mb-4 text-center">Каталог книг</h1>
+    <h1 class="mb-4 text-center">Каталог книг</h1>
 
-  {% if books %}
+    {% if books %}
     <div class="table-responsive">
-      <table class="table table-striped align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">Название</th>
-            <th scope="col">Автор</th>
-            <th scope="col">Категория</th>
-            <th scope="col">Действие</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for book in books %}
+        <table class="table table-striped align-middle">
+            <thead class="table-dark">
             <tr>
-              <td>{{ book.title }}</td>
-              <td>{{ book.author }}</td>
-              <td>{{ book.category.name }}</td>
-              <td>
-                <a href="{% url 'book_detail' book.id %}" class="btn btn-sm btn-outline-primary">Подробнее</a>
-              </td>
+                <th scope="col">Название</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Действие</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+            {% for book in books %}
+            <tr>
+                <td>
+                    {{ book.title }}
+                    {% if book.id in book_ids_taken %}
+                    <span class="badge bg-success ms-2">Взята</span>
+                    {% endif %}
+                </td>
+
+                <td>{{ book.author }}</td>
+                <td>{{ book.category.name }}</td>
+                <td>
+                    <a href="{% url 'book_detail' book.id %}" class="btn btn-sm btn-outline-primary">Подробнее</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
-  {% else %}
+    {% else %}
     <div class="alert alert-info" role="alert">
-      Книги пока не добавлены.
+        Книги пока не добавлены.
     </div>
-  {% endif %}
+    {% endif %}
 </div>
 {% endblock %}

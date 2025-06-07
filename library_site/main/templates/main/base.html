@@ -10,22 +10,32 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="/">Библиотека</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
-        <li class="nav-item"><a class="nav-link" href="/books/">Каталог</a></li>
-        <li class="nav-item"><a class="nav-link" href="/account/">Кабинет</a></li>
-        <li class="nav-item"><a class="nav-link" href="/about/">О нас</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact/">Контакты</a></li>
-      </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="/login/">Войти</a></li>
-        <li class="nav-item"><a class="nav-link" href="/register/">Регистрация</a></li>
-      </ul>
+    <div class="container">
+        <a class="navbar-brand" href="/">Библиотека</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
+                <li class="nav-item"><a class="nav-link" href="/books/">Каталог</a></li>
+                <li class="nav-item"><a class="nav-link" href="/account/">Кабинет</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about/">О нас</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contact/">Контакты</a></li>
+            </ul>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-light">Выйти</button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Войти</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
+            </ul>
+
+        </div>
     </div>
-  </div>
 </nav>
 
 <div class="container py-4">

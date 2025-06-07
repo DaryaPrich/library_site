@@ -18,6 +18,8 @@
             </div>
         </div>
     </div>
+
+    {% if not user.is_authenticated %}
     <div class="col-md-4 mt-4 mt-md-0">
         <div class="card h-100">
             <div class="card-body">
@@ -28,6 +30,18 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="col-md-4 mt-4 mt-md-0">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Кабинет</h5>
+                <p class="card-text">Добро пожаловать, {{ user.username }}! Перейдите в кабинет, чтобы управлять бронированиями.</p>
+                <a href="/account/" class="btn btn-info">Личный кабинет</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="col-md-4 mt-4 mt-md-0">
         <div class="card h-100">
             <div class="card-body">

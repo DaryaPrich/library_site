@@ -35,7 +35,7 @@ class Booking(models.Model):
         ('approved', 'Подтверждена'),
         ('returned', 'Возвращена'),
     ]
-    user = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='bookings')
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     booking_date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
