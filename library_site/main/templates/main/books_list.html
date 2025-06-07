@@ -1,5 +1,39 @@
 ﻿{% extends 'main/base.html' %}
-{% block title %}Страница: books_list.html{% endblock %}
+{% block title %}Каталог книг{% endblock %}
+
 {% block content %}
-<h1>books_list.html</h1>
+<div class="container mt-5">
+  <h1 class="mb-4 text-center">Каталог книг</h1>
+
+  {% if books %}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Категория</th>
+            <th scope="col">Действие</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in books %}
+            <tr>
+              <td>{{ book.title }}</td>
+              <td>{{ book.author }}</td>
+              <td>{{ book.category.name }}</td>
+              <td>
+                <a href="{% url 'book_detail' book.id %}" class="btn btn-sm btn-outline-primary">Подробнее</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      Книги пока не добавлены.
+    </div>
+  {% endif %}
+</div>
 {% endblock %}
