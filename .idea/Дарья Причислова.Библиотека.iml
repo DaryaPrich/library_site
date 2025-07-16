@@ -5,7 +5,7 @@
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/venv1" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.11 (ДарьяПричислова.Библиотека)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.11 (ДарьяПричислова.Библиотека) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="sign-in" level="application" />
