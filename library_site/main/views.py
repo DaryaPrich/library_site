@@ -1,15 +1,17 @@
-﻿from django.contrib.auth import login
-from django.contrib.auth import logout
-
-from .forms import RegisterForm
+﻿from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import get_object_or_404, redirect
-from .models import Book
-
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .models import Booking
+
+from .forms import BookForm  # если формы нет — создадим ниже
+from .forms import RegisterForm
+from .models import Book
+from .models import CustomUser, ReadHistory
 
 
 def index(request):
@@ -18,46 +20,12 @@ def index(request):
 
 def books_list(request):
     books = Book.objects.all()
-
-    book_ids_taken = set()
-    if request.user.is_authenticated:
-        book_ids_taken = set(
-            Booking.objects.filter(user=request.user, status='pending')
-            .values_list('book_id', flat=True)
-        )
-
-    return render(request, 'main/books_list.html', {
-        'books': books,
-        'book_ids_taken': book_ids_taken,
-    })
+    return render(request, 'main/books_list.html', {'books': books})
 
 
-@login_required
 def book_detail(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-
-    # Проверяем, есть ли уже активное бронирование этой книги у пользователя
-    existing = Booking.objects.filter(user=request.user, book=book, status='pending').first()
-
-    if request.method == 'POST':
-        if book.copies_available > 0:
-            if not existing:
-                # Создаём бронирование
-                Booking.objects.create(user=request.user, book=book)
-                book.copies_available -= 1
-                book.save()
-                messages.success(request, f'Вы успешно взяли книгу: {book.title}')
-            else:
-                messages.info(request, 'Вы уже взяли эту книгу ранее.')
-        else:
-            messages.error(request, 'Книга недоступна для бронирования.')
-
-        return redirect('account')
-
-    return render(request, 'main/book_detail.html', {
-        'book': book,
-        'already_taken': bool(existing)
-    })
+    book = get_object_or_404(Book, pk=book_id)
+    return render(request, 'main/book_detail.html', {'book': book})
 
 
 def account(request):
@@ -77,21 +45,42 @@ def login_view(request):
 
 
 def register_view(request):
+    return render(request, 'main/register.html')
+
+
+def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Авторизуем нового пользователя
-            return redirect('account')  # Переход в личный кабинет
+            login(request, user)
+            return redirect('account')
     else:
         form = RegisterForm()
     return render(request, 'main/register.html', {'form': form})
 
 
 def login_view(request):
-    from django.contrib.auth.forms import AuthenticationForm
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
+
+        if settings.DEBUG:
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            print("=== DEBUG: логин ===")
+            print("Введён логин:", username)
+            print("Введён пароль:", password)
+            print("Сгенерированный хеш (один из вариантов):", make_password(password))
+
+            try:
+                user_in_db = CustomUser.objects.get(username=username)
+                print("Хеш в базе:", user_in_db.password)
+                is_match = check_password(password, user_in_db.password)
+                print("Совпадает ли пароль:", is_match)
+            except CustomUser.DoesNotExist:
+                print("Пользователь не найден")
+
         if form.is_valid():
             user = form.get_user()
             login(request, user)
@@ -103,47 +92,74 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('index')
-
-
-@login_required
-def book_detail_view(request, pk):
-    book = get_object_or_404(Book, pk=pk)
-
-    if request.method == 'POST':
-        if book.copies_available > 0:
-            Booking.objects.create(user=request.user, book=book)
-            book.copies_available -= 1
-            book.save()
-        return redirect('account')  # или 'book_detail', args=[pk]
-
-    return render(request, 'main/book_detail.html', {'book': book})
+    return redirect('login')
 
 
 @login_required
 def account_view(request):
-    user = request.user
-    # Явный вывод бронирований
-    bookings = Booking.objects.filter(user=user, status='pending')
-    print(f"📚 Найдено бронирований: {bookings.count()}")
-    for b in bookings:
-        print(f"- {b.book.title} ({b.status})")
-
+    read_books = ReadHistory.objects.filter(user=request.user).select_related('book').order_by('-read_at')
     return render(request, 'main/account.html', {
-        'user': user,
-        'bookings': bookings,
+        'user': request.user,
+        'read_books': read_books
     })
 
 
 @login_required
-def return_book(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id, user=request.user, status='pending')
+def books_list_view(request):
+    books = Book.objects.all()
+    return render(request, 'main/books_list.html', {'books': books})
+
+
+@login_required
+def read_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    # записываем в историю
+    ReadHistory.objects.get_or_create(user=request.user, book=book)
+    # редиректим на файл или ссылку
+    url = book.get_access_url()
+    if url:
+        return redirect(url)
+    messages.error(request, 'У этой книги нет файла или ссылки.')
+    return redirect('book_detail', book_id=pk)
+
+
+# views.py
+@login_required
+def add_book(request):
+    if request.user.role not in ['admin', 'librarian']:
+        return redirect('books_list')
 
     if request.method == 'POST':
-        booking.status = 'returned'
-        booking.save()
-        booking.book.copies_available += 1
-        booking.book.save()
-        messages.success(request, f'Книга «{booking.book.title}» успешно возвращена.')
+        form = BookForm(request.POST, request.FILES)  # <-- добавили request.FILES
+        if form.is_valid():
+            form.save()
+            return redirect('books_list')
+    else:
+        form = BookForm()
+    return render(request, 'main/book_form.html', {'form': form})
 
-    return redirect('account')
+
+@login_required
+def edit_book(request, book_id):
+    if request.user.role not in ['admin', 'librarian']:
+        return redirect('books_list')
+
+    book = get_object_or_404(Book, id=book_id)
+    if request.method == 'POST':
+        form = BookForm(request.POST, request.FILES, instance=book)  # <-- тоже с FILES
+        if form.is_valid():
+            form.save()
+            return redirect('books_list')
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'main/edit_book.html', {'form': form, 'book': book})
+
+
+@login_required
+def delete_book(request, book_id):
+    if request.user.role != 'admin':
+        return redirect('books_list')  # Только админ может удалять
+
+    book = get_object_or_404(Book, id=book_id)
+    book.delete()
+    return redirect('books_list')

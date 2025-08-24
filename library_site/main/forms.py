@@ -1,5 +1,5 @@
-from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+
 from .models import CustomUser
 
 
@@ -8,36 +8,26 @@ class RegisterForm(UserCreationForm):
         model = CustomUser
         fields = ['username', 'email', 'password1', 'password2']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Имя пользователя'
-        })
-        self.fields['email'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Email'
-        })
-        self.fields['password1'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Пароль'
-        })
-        self.fields['password2'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Повторите пароль'
-        })
+
+from django import forms
+from .models import Book
 
 
-class LoginForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Имя пользователя',
-            'id': 'id_username'
-        })
-        self.fields['password'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Пароль',
-            'id': 'id_password'
-        })
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = '__all__'
+
+
+from django import forms
+from .models import Book
+
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = [
+            'title', 'author', 'isbn', 'year', 'description',
+            'copies_total', 'copies_available', 'category',
+            'file', 'file_url'
+        ]

@@ -1,0 +1,69 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Редактирование книги: <em>{{ book.title }}</em></h2>
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation">
+        {% csrf_token %}
+
+        <div class="row g-3">
+            <div class="col-md-6 mb-3">
+                <label for="id_title" class="form-label">Название</label>
+                {{ form.title }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="id_author" class="form-label">Автор</label>
+                {{ form.author }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="id_isbn" class="form-label">ISBN</label>
+                {{ form.isbn }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="id_year" class="form-label">Год издания</label>
+                {{ form.year }}
+            </div>
+
+            <div class="col-12 mb-3">
+                <label for="id_description" class="form-label">Описание</label>
+                {{ form.description }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="id_copies_total" class="form-label">Всего экземпляров</label>
+                {{ form.copies_total }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="id_copies_available" class="form-label">Доступно экземпляров</label>
+                {{ form.copies_available }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="id_category" class="form-label">Категория</label>
+                {{ form.category }}
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="id_file" class="form-label">Файл книги (PDF/EPUB)</label>
+                {{ form.file }}
+                <div class="form-text">При наличии файла он используется в приоритете над ссылкой.</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="id_file_url" class="form-label">Ссылка на книгу</label>
+                {{ form.file_url }}
+            </div>
+
+        </div>
+
+        <hr class="my-4">
+
+        <button type="submit" class="btn btn-primary me-2">💾 Сохранить</button>
+        <a href="{% url 'books_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

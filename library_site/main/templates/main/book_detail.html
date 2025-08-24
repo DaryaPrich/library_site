@@ -1,40 +1,49 @@
 ﻿{% extends 'main/base.html' %}
-{% block title %}{{ book.title }} — подробности{% endblock %}
+{% block title %}{{ book.title }}{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-3">{{ book.title }}</h2>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title display-5 mb-3">{{ book.title }}</h2>
+            <p class="text-muted">Автор: <strong>{{ book.author }}</strong></p>
+            <p class="text-muted">Год: <strong>{{ book.year }}</strong></p>
+            <p class="text-muted">Категория: <strong>{{ book.category.name }}</strong></p>
 
-    <div class="row">
-        <div class="col-md-4">
-            {% if book.cover_image %}
-            <img src="{{ book.cover_image.url }}" class="img-fluid rounded" alt="Обложка книги">
-            {% else %}
-            <img src="https://via.placeholder.com/200x300?text=Нет+обложки" class="img-fluid rounded" alt="Нет обложки">
-            {% endif %}
-        </div>
-        <div class="col-md-8">
-            <p><strong>Автор:</strong> {{ book.author }}</p>
-            <p><strong>Год:</strong> {{ book.year }}</p>
-            <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-            <p><strong>Категория:</strong> {{ book.category.name }}</p>
-            <p><strong>Описание:</strong></p>
-            <p>{{ book.description }}</p>
-
-            {% if user.is_authenticated %}
-                {% if already_taken %}
-                    <div class="alert alert-info mt-3">Вы уже взяли эту книгу.</div>
-                {% elif book.copies_available > 0 %}
-                    <form method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-success">Взять книгу</button>
-                    </form>
-                {% else %}
-                    <div class="alert alert-warning mt-3">Книга недоступна для бронирования.</div>
+            <ul class="list-group mb-3">
+                <li class="list-group-item">
+                    Доступно: {{ book.copies_available }} из {{ book.copies_total }}
+                </li>
+                {% if book.description %}
+                <li class="list-group-item">
+                    <strong>Описание:</strong><br>
+                    {{ book.description }}
+                </li>
                 {% endif %}
-            {% else %}
-                <a href="{% url 'login' %}" class="btn btn-outline-primary">Войдите, чтобы взять книгу</a>
+            </ul>
+
+            {% if book.cover_image %}
+            <div class="text-center mb-3">
+                <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="img-fluid rounded shadow-sm">
+            </div>
             {% endif %}
+
+            <div class="d-flex flex-wrap">
+                {% if user.is_authenticated %}
+                {% if not book.is_taken %}
+
+                {% else %}
+                <a href="{% url 'return_book' book.id %}" class="btn btn-warning me-2 mb-2">🔄 Вернуть книгу</a>
+                {% endif %}
+                {% endif %}
+
+                {% if user.role in 'admin librarian' %}
+                <a href="{% url 'edit_book' book.id %}" class="btn btn-primary me-2 mb-2">✏ Редактировать</a>
+                {% endif %}
+                {% if user.role == 'admin' %}
+                <a href="{% url 'delete_book' book.id %}" class="btn btn-danger mb-2">🗑 Удалить</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

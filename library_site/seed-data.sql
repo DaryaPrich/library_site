@@ -57,15 +57,15 @@ VALUES
 (15, 'История древнего мира', 'Иван Артамонов', '978-5-17-060343-5', 1954, 'История античных цивилизаций.', NULL, 4, 4, 3);
 
 -- === ПОЛЬЗОВАТЕЛИ ===
--- Пользователи (пароль: 123456)
+-- Пароль: 123456
 INSERT INTO main_customuser (
     id, password, is_superuser, username, email, is_staff, is_active, date_joined,
     first_name, last_name, role
 )
 VALUES
-(1, 'pbkdf2_sha256$720000$XAbYtW7g3cRf8FLYFz6LkN$uTz8cu+7F2YaRoHra30iLSC4+HlAo5eHuYmZSRx7McQ=', 1, 'admin', 'admin@example.com', 1, 1, '2025-06-07 00:00:00', '', '', 'admin'),
-(2, 'pbkdf2_sha256$720000$XAbYtW7g3cRf8FLYFz6LkN$uTz8cu+7F2YaRoHra30iLSC4+HlAo5eHuYmZSRx7McQ=', 0, 'reader1', 'reader1@example.com', 0, 1, '2025-06-07 00:00:00', '', '', 'reader'),
-(3, 'pbkdf2_sha256$720000$XAbYtW7g3cRf8FLYFz6LkN$uTz8cu+7F2YaRoHra30iLSC4+HlAo5eHuYmZSRx7McQ=', 0, 'reader2', 'reader2@example.com', 0, 1, '2025-06-07 00:00:00', '', '', 'reader');
+(1, 'pbkdf2_sha256$720000$XAbYtW7g3cRf8FLYFz6LkN$uTz8cu+7F2YaRoHra30iLSC4+HlAo5eHuYmZSRx7McQ=', 1, 'admin', 'admin@example.com', 1, 1, '2025-06-07 00:00:00', 'Дарья', 'Причичик', 'admin'),
+(2, 'pbkdf2_sha256$720000$XAbYtW7g3cRf8FLYFz6LkN$uTz8cu+7F2YaRoHra30iLSC4+HlAo5eHuYmZSRx7McQ=', 0, 'reader1', 'reader1@example.com', 0, 1, '2025-06-07 00:00:00', 'Анна', 'Студенткина', 'reader'),
+(3, 'pbkdf2_sha256$720000$XAbYtW7g3cRf8FLYFz6LkN$uTz8cu+7F2YaRoHra30iLSC4+HlAo5eHuYmZSRx7McQ=', 0, 'reader2', 'reader2@example.com', 0, 1, '2025-06-07 00:00:00', 'Олег', 'Читатель', 'reader');
 
 -- === ГРУППЫ ===
 INSERT INTO auth_group (id, name) VALUES

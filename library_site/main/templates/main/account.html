@@ -1,25 +1,23 @@
 {% extends 'main/base.html' %}
 {% block content %}
-<div class="container mt-4">
-    <h2>Личный кабинет</h2>
-    <p>Здравствуйте, {{ user.username }}!</p>
-    <form method="post" action="{% url 'logout' %}" class="float-end">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-outline-danger">Выйти</button>
-    </form>
+<h2>Личный кабинет</h2>
 
+{% if user.is_authenticated %}
+<p>Привет, {{ user.first_name|default:user.username }} {% if user.last_name %}{{ user.last_name }}{% endif %}!</p>
 
-    <h4 class="mt-4">Взятые книги:</h4>
-    <ul class="list-group">
-        {% for booking in bookings %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>{{ booking.book.title }} — {{ booking.book.author }}</span>
-            <form method="post" action="{% url 'return_book' booking.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-outline-danger">Вернуть</button>
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
+<h3>Прочитанные книги:</h3>
+<ul>
+    {% for history in read_books %}
+    <li>{{ history.book.title }} <small class="text-muted">({{ history.read_at|date:"d.m.Y H:i" }})</small></li>
+    {% empty %}
+    <li>Вы пока не читали книги.</li>
+    {% endfor %}
+</ul>
+
+{% else %}
+<div class="alert alert-warning mt-3">
+    Вы не вошли в систему. <a href="{% url 'login' %}" class="alert-link">Войдите</a>, чтобы просматривать личный
+    кабинет.
 </div>
+{% endif %}
 {% endblock %}

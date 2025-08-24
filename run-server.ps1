@@ -10,7 +10,7 @@ if (-not (Test-Path $venvActivate)) {
 }
 
 Set-Location $projectDir
-. $venvActivate  # Важно: точка перед вызовом — запускает в текущем контексте
+. $venvActivate
 
 Write-Host "🚀 Запускаю Django-сервер..." -ForegroundColor Cyan
 python manage.py runserver
