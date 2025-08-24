@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/library_site/main/templates/main/account.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/library_site/main/templates/main/login.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/library_site/main/templates/main/register.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/reset_git_author.ps1" charset="windows-1251" />
   </component>
 </project>
