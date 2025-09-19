@@ -18,14 +18,37 @@ class BookForm(forms.ModelForm):
         fields = '__all__'
 
 
+# main/forms.py
+from django import forms
+from .models import Book  # если уже есть — не дублируй
+
+
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = [
-            'title', 'author', 'isbn', 'year', 'description',
-            'copies_total', 'copies_available', 'category',
-            'file', 'file_url'
+            "title", "author", "isbn", "year", "description",
+            "copies_total", "copies_available", "category",
+            "cover_image",  # <— новое поле (URL обложки)
+            "file_url",  # <— ссылка на книгу
+            "file",  # <— файл книги
         ]
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control"}),
+            "author": forms.TextInput(attrs={"class": "form-control"}),
+            "isbn": forms.TextInput(attrs={"class": "form-control"}),
+            "year": forms.NumberInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 7}),
+            "copies_total": forms.NumberInput(attrs={"class": "form-control"}),
+            "copies_available": forms.NumberInput(attrs={"class": "form-control"}),
+            "category": forms.Select(attrs={"class": "form-select"}),
+            "cover_image": forms.URLInput(attrs={"class": "form-control", "placeholder": "https://..."}),
+            "file_url": forms.URLInput(attrs={"class": "form-control", "placeholder": "https://..."}),
+            "file": forms.ClearableFileInput(attrs={"class": "form-control"}),
+        }
+        help_texts = {
+            "file": "При наличии файла он используется в приоритете над ссылкой.",
+        }
 
 
 User = get_user_model()

@@ -1,12 +1,73 @@
 {% extends 'main/base.html' %}
+{% block title %}Добавить книгу{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
     <h2 class="mb-4">Добавить книгу</h2>
-    <form method="post" class="card p-4 shadow-sm">
+
+    <form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">💾 Сохранить</button>
-        <a href="{% url 'books_list' %}" class="btn btn-secondary">Отмена</a>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label" for="id_title">Название</label>
+                {{ form.title }}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="id_author">Автор</label>
+                {{ form.author }}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label" for="id_isbn">ISBN</label>
+                {{ form.isbn }}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="id_year">Год издания</label>
+                {{ form.year }}
+            </div>
+
+            <div class="col-12">
+                <label class="form-label" for="id_description">Описание</label>
+                {{ form.description }}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label" for="id_copies_total">Всего экземпляров</label>
+                {{ form.copies_total }}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="id_copies_available">Доступно экземпляров</label>
+                {{ form.copies_available }}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label" for="id_category">Категория</label>
+                {{ form.category }}
+            </div>
+
+            <div class="col-12">
+                <label class="form-label" for="id_cover_image">Ссылка на обложку</label>
+                {{ form.cover_image }}
+                <div class="form-text">URL изображения (показывается в карточке книги).</div>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label" for="id_file_url">Ссылка на книгу</label>
+                {{ form.file_url }}
+            </div>
+
+            <div class="col-12">
+                <label class="form-label" for="id_file">Файл книги (PDF/EPUB)</label>
+                {{ form.file }}
+                <div class="form-text">{{ form.fields.file.help_text }}</div>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-success">💾 Сохранить</button>
+            <a href="{% url 'books_list' %}" class="btn btn-outline-secondary">Отмена</a>
+        </div>
     </form>
 </div>
 {% endblock %}

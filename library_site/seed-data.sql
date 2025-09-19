@@ -38,7 +38,7 @@ VALUES
 -- Фантастика (category_id = 1)
 (1, '1984', 'Джордж Оруэлл', '978-5-17-118366-1', 1949,
  'Антиутопия о тоталитарном обществе.',
- 'https://www.storytel.com/images/1271788/cover/1984.jpg',
+ 'https://covers.storytel.com/jpg-640/9782291090830.58b5cb0d-d3ca-43e2-bfa7-4095b5a0ef41?optimize=high&quality=70&width=600',
  5, 3, 1),
 
 (4, 'Марсианин', 'Энди Вейер', '978-5-389-09706-7', 2011,
@@ -48,12 +48,12 @@ VALUES
 
 (5, 'Дюна', 'Фрэнк Герберт', '978-5-17-083845-6', 1965,
  'Эпическая сага о пустынной планете.',
- 'https://www.storytel.com/images/1643054/cover/dune.jpg',
+ 'https://covers.storytel.com/jpg-640/9788726772647.e7920256-7c11-47f4-bb5d-c31d6f423791?optimize=high&quality=70&width=600',
  6, 5, 1),
 
 (6, '451 градус по Фаренгейту', 'Рэй Брэдбери', '978-5-17-087107-1', 1953,
  'Общество, где книги под запретом.',
- 'https://www.storytel.com/images/1234567/cover/fahrenheit-451.jpg',
+ 'https://covers.storytel.com/jpg-640/9786257737241.8922d681-e9a6-45a2-90b5-3944f5431eaa?optimize=high&quality=70&width=600',
  3, 2, 1),
 
 (7, 'Автостопом по галактике', 'Дуглас Адамс', '978-5-389-09211-6', 1979,

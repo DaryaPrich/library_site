@@ -1,69 +1,74 @@
 {% extends 'main/base.html' %}
+{% block title %}Редактирование книги: {{ book.title }}{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
     <h2 class="mb-4">Редактирование книги: <em>{{ book.title }}</em></h2>
 
-    <form method="post" enctype="multipart/form-data" class="needs-validation">
+    <form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm">
         {% csrf_token %}
 
         <div class="row g-3">
-            <div class="col-md-6 mb-3">
-                <label for="id_title" class="form-label">Название</label>
+            <div class="col-md-6">
+                <label class="form-label" for="id_title">Название</label>
                 {{ form.title }}
             </div>
-
-            <div class="col-md-6 mb-3">
-                <label for="id_author" class="form-label">Автор</label>
+            <div class="col-md-6">
+                <label class="form-label" for="id_author">Автор</label>
                 {{ form.author }}
             </div>
 
-            <div class="col-md-6 mb-3">
-                <label for="id_isbn" class="form-label">ISBN</label>
+            <div class="col-md-6">
+                <label class="form-label" for="id_isbn">ISBN</label>
                 {{ form.isbn }}
             </div>
-
-            <div class="col-md-6 mb-3">
-                <label for="id_year" class="form-label">Год издания</label>
+            <div class="col-md-6">
+                <label class="form-label" for="id_year">Год издания</label>
                 {{ form.year }}
             </div>
 
-            <div class="col-12 mb-3">
-                <label for="id_description" class="form-label">Описание</label>
+            <div class="col-12">
+                <label class="form-label" for="id_description">Описание</label>
                 {{ form.description }}
             </div>
 
-            <div class="col-md-6 mb-3">
-                <label for="id_copies_total" class="form-label">Всего экземпляров</label>
+            <div class="col-md-6">
+                <label class="form-label" for="id_copies_total">Всего экземпляров</label>
                 {{ form.copies_total }}
             </div>
-
-            <div class="col-md-6 mb-3">
-                <label for="id_copies_available" class="form-label">Доступно экземпляров</label>
+            <div class="col-md-6">
+                <label class="form-label" for="id_copies_available">Доступно экземпляров</label>
                 {{ form.copies_available }}
             </div>
 
-            <div class="col-md-6 mb-3">
-                <label for="id_category" class="form-label">Категория</label>
+            <div class="col-md-6">
+                <label class="form-label" for="id_category">Категория</label>
                 {{ form.category }}
             </div>
 
-            <div class="col-md-6 mb-3">
-                <label for="id_file" class="form-label">Файл книги (PDF/EPUB)</label>
-                {{ form.file }}
-                <div class="form-text">При наличии файла он используется в приоритете над ссылкой.</div>
+            <!-- новая строка: сначала ссылка на обложку, затем ссылка на книгу, затем файл — ВЕРТИКАЛЬНО -->
+            <div class="col-12">
+                <label class="form-label" for="id_cover_image">Ссылка на обложку</label>
+                {{ form.cover_image }}
+                <div class="form-text">URL изображения (показывается в карточке книги).</div>
             </div>
 
-            <div class="col-md-6 mb-3">
-                <label for="id_file_url" class="form-label">Ссылка на книгу</label>
+            <div class="col-12">
+                <label class="form-label" for="id_file_url">Ссылка на книгу</label>
                 {{ form.file_url }}
             </div>
 
+            <div class="col-12">
+                <label class="form-label" for="id_file">Файл книги (PDF/EPUB)</label>
+                {{ form.file }}
+                <div class="form-text">{{ form.fields.file.help_text }}</div>
+            </div>
         </div>
 
-        <hr class="my-4">
-
-        <button type="submit" class="btn btn-primary me-2">💾 Сохранить</button>
-        <a href="{% url 'books_list' %}" class="btn btn-secondary">Отмена</a>
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+            <a href="{% url 'books_list' %}" class="btn btn-outline-secondary">Отмена</a>
+        </div>
     </form>
 </div>
 {% endblock %}
