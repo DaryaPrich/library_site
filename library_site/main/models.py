@@ -11,17 +11,18 @@ class Category(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Название')
-    author = models.CharField(max_length=255, verbose_name='Автор')
-    isbn = models.CharField(max_length=20, unique=True, verbose_name='ISBN')
-    year = models.PositiveIntegerField(verbose_name='Год издания')
-    description = models.TextField(blank=True, verbose_name='Описание')
-    cover_image = models.ImageField(upload_to='covers/', null=True, blank=True, verbose_name='Обложка')
-    copies_total = models.PositiveIntegerField(default=1, verbose_name='Всего экземпляров')
-    copies_available = models.PositiveIntegerField(default=1, verbose_name='Доступно экземпляров')
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Категория')
-    file_url = models.URLField('Ссылка на книгу', blank=True, null=True)
-    file = models.FileField('Файл книги', upload_to='books/', blank=True, null=True)
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=200)
+    isbn = models.CharField(max_length=20, blank=True, null=True)
+    year = models.PositiveIntegerField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    cover_image = models.URLField(blank=True, null=True)  # <-- добавили поле обложки
+    # остальное как было
+    copies_total = models.PositiveIntegerField(default=1)
+    copies_available = models.PositiveIntegerField(default=1)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    file_url = models.URLField(blank=True, null=True)
+    file = models.FileField(upload_to='books/', blank=True, null=True)
 
     # models.py
     def get_access_url(self):

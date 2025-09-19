@@ -1,20 +1,32 @@
-﻿from django.urls import path
+﻿# main/urls.py
+from django.urls import path
 
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('books/', views.books_list, name='books_list'),
-    path('books/<int:book_id>/', views.book_detail, name='book_detail'),
-    path('account/', views.account_view, name='account'),
-    path('books/<int:pk>/read/', views.read_book, name='read_book'),
-    path('about/', views.about, name='about'),
-    path('contact/', views.contact, name='contact'),
-    path('login/', views.login_view, name='login'),
-    path('register/', views.register_view, name='register'),
-    path('logout/', views.logout_view, name='logout'),
-    path('books/<int:book_id>/edit/', views.edit_book, name='edit_book'),
-    path('books/<int:book_id>/delete/', views.delete_book, name='delete_book'),
-    path('books/add/', views.add_book, name='add_book'),
-    path('books/<int:pk>/read/', views.read_book, name='read_book'),
+    path("", views.index, name="index"),
+
+    # Книги
+    path("books/", views.books_list, name="books_list"),
+    path("books/add/", views.add_book, name="add_book"),
+    path("books/<int:book_id>/", views.book_detail, name="book_detail"),
+    path("books/<int:book_id>/edit/", views.edit_book, name="edit_book"),
+    path("books/<int:book_id>/delete/", views.delete_book, name="delete_book"),
+    path("books/<int:pk>/read/", views.read_book, name="read_book"),
+
+    # Страницы
+    path("account/", views.account_view, name="account"),
+    path("about/", views.about, name="about"),
+    path("contact/", views.contact, name="contact"),
+
+    # Аутентификация
+    path("login/", views.login_view, name="login"),
+    path("register/", views.register_view, name="register"),
+    path("logout/", views.logout_view, name="logout"),
+
+    # 🔹 Управление пользователями (для админов)
+    path("users/", views.UserListView.as_view(), name="users_list"),
+    path("users/create/", views.UserCreateView.as_view(), name="users_create"),
+    path("users/<int:pk>/edit/", views.UserUpdateView.as_view(), name="users_edit"),
+    path("users/<int:pk>/delete/", views.UserDeleteView.as_view(), name="users_delete"),
 ]

@@ -163,3 +163,75 @@ def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     book.delete()
     return redirect('books_list')
+
+
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.db.models import Q
+from .forms import UserForm
+
+User = get_user_model()
+
+
+class StaffOnlyMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_staff
+
+    def handle_no_permission(self):
+        from django.http import HttpResponseForbidden
+        return HttpResponseForbidden("Недостаточно прав.")
+
+
+class UserListView(LoginRequiredMixin, StaffOnlyMixin, ListView):
+    model = User
+    template_name = "main/users_list.html"
+    context_object_name = "users"
+    paginate_by = 20
+
+    def get_queryset(self):
+        qs = super().get_queryset().order_by("id").prefetch_related("groups")
+        q = self.request.GET.get("q")
+        if q:
+            qs = qs.filter(
+                Q(username__icontains=q) |
+                Q(email__icontains=q) |
+                Q(first_name__icontains=q) |
+                Q(last_name__icontains=q) |
+                Q(groups__name__icontains=q)
+            ).distinct()
+        return qs
+
+
+class UserCreateView(LoginRequiredMixin, StaffOnlyMixin, CreateView):
+    model = User
+    form_class = UserForm
+    template_name = "main/user_form.html"
+    success_url = reverse_lazy("users_list")
+
+
+class UserUpdateView(LoginRequiredMixin, StaffOnlyMixin, UpdateView):
+    model = User
+    form_class = UserForm
+    template_name = "main/user_form.html"
+    success_url = reverse_lazy("users_list")
+
+
+from django.http import HttpResponseForbidden
+
+
+class UserDeleteView(LoginRequiredMixin, StaffOnlyMixin, DeleteView):
+    model = User
+    template_name = "main/user_confirm_delete.html"
+    success_url = reverse_lazy("users_list")
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # запрет на удаление суперпользователя
+        if self.object.is_superuser:
+            return HttpResponseForbidden("Нельзя удалить суперпользователя.")
+        # запрет на самоудаление
+        if self.object.pk == request.user.pk:
+            return HttpResponseForbidden("Нельзя удалить самого себя.")
+        return super().post(request, *args, **kwargs)

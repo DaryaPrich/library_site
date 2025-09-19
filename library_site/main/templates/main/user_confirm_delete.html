@@ -1,0 +1,59 @@
+{% extends "main/base.html" %}
+{% block title %}Удалить пользователя {{ object.username }}?{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3">
+                        Удалить пользователя <span class="text-danger">{{ object.username }}</span>?
+                    </h3>
+
+                    {% if object.is_superuser %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Внимание:</strong> это суперпользователь. Удаление таких учёток обычно не допускается.
+                    </div>
+                    {% elif request.user.pk == object.pk %}
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Осторожно:</strong> вы удаляете собственную учётную запись.
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning" role="alert">
+                        Это действие необратимо. Все связанные данные (например, бронирования) могут потерять связь с
+                        пользователем.
+                    </div>
+                    {% endif %}
+
+                    <dl class="row small text-muted mb-4">
+                        <dt class="col-sm-3">Email</dt>
+                        <dd class="col-sm-9">{{ object.email|default:"—" }}</dd>
+                        <dt class="col-sm-3">Имя</dt>
+                        <dd class="col-sm-9">{{ object.get_full_name|default:"—" }}</dd>
+                        <dt class="col-sm-3">Группы</dt>
+                        <dd class="col-sm-9">
+                            {% for g in object.groups.all %}
+                            {{ g.name }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}—{% endfor %}
+                        </dd>
+                    </dl>
+
+                    <form method="post" class="d-flex gap-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger"
+                                {% if object.is_superuser %}
+                                disabled title="Нельзя удалять суперпользователя"
+                                {% endif %}>
+                            Удалить
+                        </button>
+                        <a href="{% url 'users_list' %}" class="btn btn-outline-secondary">Отмена</a>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

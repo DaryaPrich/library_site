@@ -56,6 +56,12 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
                 <li class="nav-item"><a class="nav-link" href="/books/">Каталог</a></li>
+                {% if request.user.is_authenticated and request.user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users_list' %}">Пользователи</a>
+                </li>
+                {% endif %}
+
                 <li class="nav-item"><a class="nav-link" href="/account/">Кабинет</a></li>
                 <li class="nav-item"><a class="nav-link" href="/about/">О нас</a></li>
                 <li class="nav-item"><a class="nav-link" href="/contact/">Контакты</a></li>

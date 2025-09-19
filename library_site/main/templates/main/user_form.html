@@ -1,0 +1,189 @@
+{% extends "main/base.html" %}
+{% block title %}{% if object %}Редактирование пользователя{% else %}Создание пользователя{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <h2 class="mb-3">{% if object %}Редактирование пользователя{% else %}Создание пользователя{% endif %}</h2>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Основные данные -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_username" class="form-label">Имя пользователя</label>
+                                {{ form.username }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_email" class="form-label">Адрес электронной почты</label>
+                                {{ form.email }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_first_name" class="form-label">Имя</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_last_name" class="form-label">Фамилия</label>
+                                {{ form.last_name }}
+                            </div>
+
+                            <!-- Флаги -->
+                            <div class="col-md-4">
+                                <div class="form-check mt-4">
+                                    {{ form.is_active }}
+                                    <label class="form-check-label" for="id_is_active">Активный</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check mt-4">
+                                    {{ form.is_staff }}
+                                    <label class="form-check-label" for="id_is_staff">Статус персонала</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check mt-4">
+                                    {{ form.is_superuser }}
+                                    <label class="form-check-label" for="id_is_superuser">Суперпользователь</label>
+                                </div>
+                            </div>
+
+                            <!-- Группы -->
+                            <div class="col-12">
+                                <label for="id_groups" class="form-label">Группы</label>
+                                {{ form.groups }}
+                                <div class="form-text">Выберите одну или несколько групп. Права ниже обновятся
+                                    автоматически.
+                                </div>
+                            </div>
+
+                            <!-- Пароль -->
+                            <div class="col-12">
+                                <label for="id_password" class="form-label">Пароль</label>
+                                {{ form.password }}
+                                <div class="form-text">Оставьте пустым, если не нужно менять пароль.</div>
+                            </div>
+
+                            <!-- Дополнительно: отдельные права -->
+                            <!--                            <div class="col-12">-->
+                            <!--                                <div class="accordion" id="advPerms">-->
+                            <!--                                    <div class="accordion-item">-->
+                            <!--                                        <h2 class="accordion-header" id="advPermsHdr">-->
+                            <!--                                            <button class="accordion-button collapsed" type="button"-->
+                            <!--                                                    data-bs-toggle="collapse" data-bs-target="#advPermsBody">-->
+                            <!--                                                Дополнительно: индивидуальные права-->
+                            <!--                                            </button>-->
+                            <!--                                        </h2>-->
+                            <!--                                        <div id="advPermsBody" class="accordion-collapse collapse">-->
+                            <!--                                            <div class="accordion-body">-->
+                            <!--                                                <p class="mb-2 text-muted">-->
+                            <!--                                                    Обычно достаточно назначить группы. Здесь можно вручную-->
+                            <!--                                                    добавить/убрать отдельные права.-->
+                            <!--                                                </p>-->
+                            <!--                                                <label for="id_user_permissions" class="form-label">Права</label>-->
+                            <!--                                                {{ form.user_permissions }}-->
+                            <!--                                            </div>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+
+                            <!-- Кнопки -->
+                            <div class="col-12 d-flex gap-2 mt-2">
+                                <button class="btn btn-primary" type="submit">Сохранить</button>
+                                <a class="btn btn-outline-secondary" href="{% url 'users_list' %}">Назад</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Панель: что умеют выбранные группы -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Права выбранных групп</h5>
+
+                    <!-- Легенда по моделям/операциям -->
+                    <p class="mb-2"><strong>Модель:</strong> Книга (Book)</p>
+                    <ul class="list-unstyled small mb-3">
+                        <li><span class="badge bg-secondary">R</span> — просмотр (view)</li>
+                        <li><span class="badge bg-primary">C</span> — создание (add)</li>
+                        <li><span class="badge bg-warning text-dark">U</span> — изменение (change)</li>
+                        <li><span class="badge bg-danger">D</span> — удаление (delete)</li>
+                    </ul>
+
+                    <div id="groupPermsSummary" class="mb-2 text-muted">Группа не выбрана.</div>
+                    <div id="groupPermsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Автонастройка Bootstrap-классов + подсказка по группам -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // 1) Проставим базовые bootstrap-классы элементам формы
+      const form = document.querySelector('form');
+      if (form) {
+        form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], textarea, select')
+          .forEach(el => el.classList.add('form-control'));
+        form.querySelectorAll('input[type="checkbox"]').forEach(el => el.classList.add('form-check-input'));
+        // multiple selects по-умолчанию повыше
+        form.querySelectorAll('select[multiple]').forEach(el => el.size = 8);
+      }
+
+      // 2) Карта прав по группам (CRUD/CRU/R) — синхронизировано с reset_db.py
+      const GROUP_PERMS = {
+        'Администраторы': ['R','C','U','D'],  // CRUD
+        'Библиотекари':   ['R','C','U'],      // CRU
+        'Читатели':       ['R']               // R
+      };
+
+      const LABELS = { R:'Просмотр', C:'Создание', U:'Изменение', D:'Удаление' };
+
+      const groupsSelect = document.getElementById('id_groups');
+      const summaryEl = document.getElementById('groupPermsSummary');
+      const listEl = document.getElementById('groupPermsList');
+
+      function renderPerms() {
+        if (!groupsSelect) return;
+        const selected = Array.from(groupsSelect.selectedOptions).map(o => o.text.trim());
+        listEl.innerHTML = '';
+        if (!selected.length) {
+          summaryEl.textContent = 'Группа не выбрана.';
+          return;
+        }
+        summaryEl.textContent = `Выбрано групп: ${selected.length}`;
+
+        // Перечень по группам
+        selected.forEach(name => {
+          const ops = GROUP_PERMS[name] || [];
+          const badges = ops.map(code => {
+            const cls = code === 'R' ? 'bg-secondary' :
+                        code === 'C' ? 'bg-primary' :
+                        code === 'U' ? 'bg-warning text-dark' : 'bg-danger';
+            return `<span class="badge ${cls} me-1">${code}</span>`;
+          }).join(' ');
+          const details = ops.map(c => LABELS[c]).join(', ');
+          const div = document.createElement('div');
+          div.className = 'mb-2';
+          div.innerHTML = `<strong>${name}:</strong> ${badges} <span class="text-muted small">(${details})</span>`;
+          listEl.appendChild(div);
+        });
+      }
+
+      if (groupsSelect) {
+        groupsSelect.addEventListener('change', renderPerms);
+        renderPerms(); // первичный рендер
+      }
+    });
+</script>
+{% endblock %}

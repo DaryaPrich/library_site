@@ -1,0 +1,103 @@
+{% extends "main/base.html" %}
+{% block title %}Пользователи{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Пользователи</h2>
+
+    <div class="d-flex gap-2 mb-3">
+        <form method="get" class="flex-grow-1 d-flex gap-2">
+            <input type="text" name="q" value="{{ request.GET.q }}" class="form-control"
+                   placeholder="Поиск... (логин, email, имя, группа)">
+            <button class="btn btn-primary" type="submit">Искать</button>
+        </form>
+        <a href="{% url 'users_create' %}" class="btn btn-success">Создать пользователя</a>
+    </div>
+
+    <table id="usersTable" class="table table-striped table-bordered table-hover align-middle">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Логин</th>
+            <th>Email</th>
+            <th>Имя</th>
+            <th>Группы</th>
+            <th>Суперпользователь</th>
+            <th>Действия</th>
+        </tr>
+        <tr class="filters table-secondary">
+            <th><input class="form-control form-control-sm" type="text" placeholder="ID"></th>
+            <th><input class="form-control form-control-sm" type="text" placeholder="Логин"></th>
+            <th><input class="form-control form-control-sm" type="text" placeholder="Email"></th>
+            <th><input class="form-control form-control-sm" type="text" placeholder="Имя"></th>
+            <th><input class="form-control form-control-sm" type="text" placeholder="Название группы"></th>
+            <th><input class="form-control form-control-sm" type="text" placeholder="Да/Нет"></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.username }}</td>
+            <td>{{ u.email|default:"—" }}</td>
+            <td>{{ u.get_full_name|default:"—" }}</td>
+            <td>
+                {% if u.groups.all %}
+                {% for g in u.groups.all %}
+                {{ g.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                —
+                {% endfor %}
+                {% else %}
+                —
+                {% endif %}
+            </td>
+
+            <td>
+          <span class="badge {{ u.is_superuser|yesno:'bg-danger,bg-secondary' }}">
+            {{ u.is_superuser|yesno:"Да,Нет" }}
+          </span>
+            </td>
+            <td class="text-nowrap">
+                <a href="{% url 'users_edit' u.pk %}" class="btn btn-sm btn-outline-primary me-2 mb-1">Редактировать</a>
+                {% if request.user.id != u.id %}
+                <a href="{% url 'users_delete' u.pk %}"
+                   class="btn btn-sm btn-outline-danger mb-1"
+                   onclick="return confirm('Удалить пользователя «{{ u.username }}»?');">Удалить</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center text-muted">Пользователей нет</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const table = new DataTable('#usersTable', {
+        orderCellsTop: true,
+        fixedHeader: true,
+        paging: true,
+        pageLength: 10,
+        language: { url: 'https://cdn.datatables.net/plug-ins/2.0.3/i18n/ru.json' },
+        columnDefs: [{ orderable: false, targets: -1 }]
+      });
+
+      document.querySelectorAll('#usersTable thead tr.filters th').forEach((th, i) => {
+        const input = th.querySelector('input');
+        if (!input) return;
+        input.addEventListener('keyup', () => {
+          table.column(i).search(input.value).draw();
+        });
+      });
+    });
+</script>
+{% endblock %}
