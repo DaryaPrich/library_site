@@ -32,86 +32,102 @@ INSERT INTO main_category (id, name) VALUES
 -- === КНИГИ ===
 INSERT INTO main_book (
     id, title, author, isbn, year, description, cover_image,
-    copies_total, copies_available, category_id
+    copies_total, copies_available, category_id, file_url
 )
 VALUES
 -- Фантастика (category_id = 1)
 (1, '1984', 'Джордж Оруэлл', '978-5-17-118366-1', 1949,
  'Антиутопия о тоталитарном обществе.',
  'https://covers.storytel.com/jpg-640/9782291090830.58b5cb0d-d3ca-43e2-bfa7-4095b5a0ef41?optimize=high&quality=70&width=600',
- 5, 3, 1),
+ 5, 3, 1,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (4, 'Марсианин', 'Энди Вейер', '978-5-389-09706-7', 2011,
  'Инженер-ботаник выживает на Марсе.',
- 'https://www.storytel.com/images/1919916/cover/martian.jpg',
- 4, 4, 1),
+ 'https://covers.storytel.com/jpg-640/9785171282417.4516bbb5-4b85-4f45-a134-82062212ca9e?optimize=high&quality=70&width=600',
+ 4, 4, 1,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (5, 'Дюна', 'Фрэнк Герберт', '978-5-17-083845-6', 1965,
  'Эпическая сага о пустынной планете.',
  'https://covers.storytel.com/jpg-640/9788726772647.e7920256-7c11-47f4-bb5d-c31d6f423791?optimize=high&quality=70&width=600',
- 6, 5, 1),
+ 6, 5, 1,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (6, '451 градус по Фаренгейту', 'Рэй Брэдбери', '978-5-17-087107-1', 1953,
  'Общество, где книги под запретом.',
  'https://covers.storytel.com/jpg-640/9786257737241.8922d681-e9a6-45a2-90b5-3944f5431eaa?optimize=high&quality=70&width=600',
- 3, 2, 1),
+ 3, 2, 1,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (7, 'Автостопом по галактике', 'Дуглас Адамс', '978-5-389-09211-6', 1979,
  'Юмористическое путешествие по Вселенной.',
- 'https://www.storytel.com/images/2345678/cover/hitchhikers-guide.jpg',
- 2, 2, 1),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 2, 2, 1,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 -- Наука (category_id = 2)
 (2, 'Краткая история времени', 'Стивен Хокинг', '978-5-17-118367-8', 1988,
  'О природе времени и вселенной.',
- 'https://www.storytel.com/images/3456789/cover/brief-history-of-time.jpg',
- 3, 2, 2),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 3, 2, 2,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (8, 'Эгоистичный ген', 'Ричард Докинз', '978-5-17-057875-8', 1976,
  'О биологии и эволюции.',
- 'https://www.storytel.com/images/4567890/cover/selfish-gene.jpg',
- 2, 2, 2),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 2, 2, 2,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (9, 'Параллельные миры', 'Митио Каку', '978-5-389-05310-0', 2005,
  'Физика многомерных вселенных.',
- 'https://www.storytel.com/images/5678901/cover/parallel-worlds.jpg',
- 4, 4, 2),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 4, 4, 2,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (10, 'Структура научных революций', 'Томас Кун', '978-5-02-025451-3', 1962,
  'Парадигмы в науке.',
- 'https://www.storytel.com/images/6789012/cover/structure-of-scientific-revolutions.jpg',
- 3, 3, 2),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 3, 3, 2,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (11, 'Самая красивая история о науке', 'Юбер Рив', '978-5-699-27586-2', 2007,
  'Наука для всех.',
- 'https://www.storytel.com/images/7890123/cover/beautiful-story-of-science.jpg',
- 5, 5, 2),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 5, 5, 2,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 -- История (category_id = 3)
 (3, 'История России', 'Николай Карамзин', '978-5-17-118368-5', 1816,
  'Классический исторический труд.',
- 'https://www.storytel.com/images/8901234/cover/history-of-russia.jpg',
- 4, 4, 3),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 4, 4, 3,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (12, 'Государь', 'Никколо Макиавелли', '978-5-389-02029-4', 1532,
  'Политическая философия.',
- 'https://www.storytel.com/images/9012345/cover/the-prince.jpg',
- 3, 3, 3),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 3, 3, 3,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (13, 'История Европы', 'Норман Дэвис', '978-5-17-070816-1', 1996,
  'Обширный труд по европейской истории.',
- 'https://www.storytel.com/images/9123456/cover/history-of-europe.jpg',
- 2, 2, 3),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 2, 2, 3,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (14, 'Вторая мировая война', 'Уинстон Черчилль', '978-5-699-03474-3', 1948,
  'Мемуары и анализ событий.',
- 'https://www.storytel.com/images/9234567/cover/second-world-war.jpg',
- 3, 3, 3),
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 3, 3, 3,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
 
 (15, 'История древнего мира', 'Иван Артамонов', '978-5-17-060343-5', 1954,
  'История античных цивилизаций.',
- 'https://www.storytel.com/images/9345678/cover/ancient-world-history.jpg',
- 4, 4, 3);
+ 'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
+ 4, 4, 3,
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
+
 
 -- === ПОЛЬЗОВАТЕЛИ ===
 -- Пароль у всех: 123456

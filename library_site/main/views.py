@@ -6,21 +6,64 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import get_object_or_404, redirect
-from django.shortcuts import render
 
 from .forms import BookForm  # если формы нет — создадим ниже
 from .forms import RegisterForm
-from .models import Book
-from .models import CustomUser, ReadHistory
+from .models import CustomUser
 
 
 def index(request):
     return render(request, 'main/index.html')
 
 
+from django.shortcuts import render
+from .models import Book, ReadHistory
+
+
+def _chunked(seq, size):
+    """Разбивает список на подсписки по size элементов (для слайдов карусели)."""
+    return [seq[i:i + size] for i in range(0, len(seq), size)]
+
+
 def books_list(request):
+    # все книги для каталога
     books = Book.objects.all()
-    return render(request, 'main/books_list.html', {'books': books})
+
+    # === Подборка для карусели ===
+    carousel_title = "Популярное"
+    qs = Book.objects.exclude(cover_image__isnull=True).exclude(cover_image="")
+
+    if request.user.is_authenticated:
+        # ID всех прочитанных пользователем книг
+        read_ids = list(
+            ReadHistory.objects.filter(user=request.user)
+            .order_by("-read_at")
+            .values_list("book_id", flat=True)
+        )
+        if read_ids:
+            # категории этих книг
+            cats = list(Book.objects.filter(id__in=read_ids).values_list("category_id", flat=True))
+            # рекомендации из этих категорий (не включая уже прочитанные)
+            rec = qs.filter(category_id__in=cats).exclude(id__in=read_ids)[:18]
+            if rec:
+                carousel_title = "Рекомендовано вам"
+                carousel_books = list(rec)
+            else:
+                carousel_books = list(qs.order_by("-copies_total")[:18])
+        else:
+            carousel_books = list(qs.order_by("-copies_total")[:18])
+    else:
+        carousel_books = list(qs.order_by("-copies_total")[:18])
+
+    # режем на слайды по 6 обложек
+    carousel_slides = _chunked(carousel_books, 6)
+
+    context = {
+        "books": books,
+        "carousel_title": carousel_title,
+        "carousel_slides": carousel_slides,
+    }
+    return render(request, "main/books_list.html", context)
 
 
 def book_detail(request, book_id):

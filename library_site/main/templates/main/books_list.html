@@ -13,6 +13,44 @@
     </div>
     {% endif %}
 
+    {% if carousel_slides %}
+    <div class="container mb-4">
+        <h4 class="mb-3">{{ carousel_title }}</h4>
+
+        <div id="booksCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+
+                {% for slide in carousel_slides %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="d-flex gap-3 justify-content-start flex-wrap">
+                        {% for book in slide %}
+                        <a href="{% url 'book_detail' book.pk %}" class="text-decoration-none" title="{{ book.title }}">
+                            <img
+                                    src="{{ book.cover_image }}"
+                                    alt="{{ book.title }}"
+                                    class="rounded shadow-sm"
+                                    style="height: 160px; width: 110px; object-fit: cover;"
+                            >
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#booksCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Назад</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#booksCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Вперёд</span>
+            </button>
+        </div>
+    </div>
+    {% endif %}
+
     <table id="booksTable" class="table table-striped table-bordered table-hover align-middle">
         <thead class="table-dark">
         <tr>
