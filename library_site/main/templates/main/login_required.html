@@ -1,0 +1,9 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="alert alert-warning">
+        Для доступа к личному кабинету необходимо <a href="{% url 'login' %}">войти</a> в систему.
+    </div>
+</div>
+{% endblock %}

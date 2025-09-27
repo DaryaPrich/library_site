@@ -62,7 +62,10 @@
                 </li>
                 {% endif %}
 
+                {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link" href="/account/">Кабинет</a></li>
+                {% endif %}
+
                 <li class="nav-item"><a class="nav-link" href="/about/">О нас</a></li>
                 <li class="nav-item"><a class="nav-link" href="/contact/">Контакты</a></li>
             </ul>

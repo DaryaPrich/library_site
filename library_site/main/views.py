@@ -4,8 +4,8 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.hashers import make_password, check_password
-from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.hashers import check_password, make_password
+from django.shortcuts import get_object_or_404
 
 from .forms import BookForm  # если формы нет — создадим ниже
 from .forms import RegisterForm
@@ -16,7 +16,6 @@ def index(request):
     return render(request, 'main/index.html')
 
 
-from django.shortcuts import render
 from .models import Book, ReadHistory
 
 
@@ -206,6 +205,20 @@ def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     book.delete()
     return redirect('books_list')
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
+
+def cabinet_guest(request):
+    return render(request, 'main/login_required.html')
+
+
+@login_required(login_url='/cabinet_guest/')
+def cabinet(request):
+    # твоя логика личного кабинета
+    return render(request, 'main/cabinet.html')
 
 
 from django.contrib.auth import get_user_model

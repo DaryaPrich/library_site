@@ -29,4 +29,8 @@ urlpatterns = [
     path("users/create/", views.UserCreateView.as_view(), name="users_create"),
     path("users/<int:pk>/edit/", views.UserUpdateView.as_view(), name="users_edit"),
     path("users/<int:pk>/delete/", views.UserDeleteView.as_view(), name="users_delete"),
+
+    path('cabinet/', views.cabinet, name='cabinet'),
+    path('cabinet_guest/', views.cabinet_guest, name='cabinet_guest'),
+
 ]
