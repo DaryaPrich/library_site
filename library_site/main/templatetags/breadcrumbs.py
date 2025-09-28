@@ -10,10 +10,17 @@ BREADCRUMB_TITLES = {
     "book_detail": "Книга",
     "account": "Личный кабинет",
     "users_list": "Пользователи",
+    "users_edit": "Редактирование пользователя",
+    "user_update": "Редактирование пользователя",
+    "users_create": "Создание пользователя",
+    "user_create": "Создание пользователя",
+    "users_delete": "Удаление пользователя",
+    "user_delete": "Удаление пользователя",
     "about": "О нас",
     "contact": "Контакты",
     "login": "Вход",
     "register": "Регистрация",
+
 }
 
 
@@ -28,17 +35,18 @@ def breadcrumbs(context):
         url += part + "/"
         try:
             match = resolve(url)
-            # получаем name из urls.py
             name = match.url_name or part
         except Resolver404:
             name = part
 
-        # локализация через словарь
-        display_name = BREADCRUMB_TITLES.get(name, name.capitalize())
+        # 1. Если сегмент — число (id), выводим как "Пользователь 6"
+        if part.isdigit():
+            display_name = f"Пользователь {part}"
+            crumb_url = None  # ← без ссылки
+        else:
+            display_name = BREADCRUMB_TITLES.get(name, name.capitalize())
+            crumb_url = url if i < len(path) - 1 else None
 
-        crumbs.append({
-            "name": display_name,
-            "url": url if i < len(path) - 1 else None,  # последняя крошка без ссылки
-        })
+        crumbs.append({"name": display_name, "url": crumb_url})
 
     return {"crumbs": crumbs}

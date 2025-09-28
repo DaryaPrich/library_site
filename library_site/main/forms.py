@@ -28,7 +28,8 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = [
             "title", "author", "isbn", "year", "description",
-            "copies_total", "copies_available", "category",
+            # "copies_total", "copies_available", 
+            "category",
             "cover_image",  # <— новое поле (URL обложки)
             "file_url",  # <— ссылка на книгу
             "file",  # <— файл книги

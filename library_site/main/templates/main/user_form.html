@@ -38,20 +38,24 @@
                                 <div class="form-check mt-4">
                                     {{ form.is_active }}
                                     <label class="form-check-label" for="id_is_active">Активный</label>
+                                    <div class="form-text">Можно ли пользователю входить в систему.</div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-check mt-4">
                                     {{ form.is_staff }}
                                     <label class="form-check-label" for="id_is_staff">Статус персонала</label>
+                                    <div class="form-text">Дает доступ в административную панель.</div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-check mt-4">
                                     {{ form.is_superuser }}
                                     <label class="form-check-label" for="id_is_superuser">Суперпользователь</label>
+                                    <div class="form-text">Полный доступ ко всем функциям и правам.</div>
                                 </div>
                             </div>
+
 
                             <!-- Группы -->
                             <div class="col-12">
@@ -69,30 +73,6 @@
                                 {{ form.password }}
                                 <div class="form-text">Оставьте пустым, если не нужно менять пароль.</div>
                             </div>
-
-                            <!-- Дополнительно: отдельные права -->
-                            <!--                            <div class="col-12">-->
-                            <!--                                <div class="accordion" id="advPerms">-->
-                            <!--                                    <div class="accordion-item">-->
-                            <!--                                        <h2 class="accordion-header" id="advPermsHdr">-->
-                            <!--                                            <button class="accordion-button collapsed" type="button"-->
-                            <!--                                                    data-bs-toggle="collapse" data-bs-target="#advPermsBody">-->
-                            <!--                                                Дополнительно: индивидуальные права-->
-                            <!--                                            </button>-->
-                            <!--                                        </h2>-->
-                            <!--                                        <div id="advPermsBody" class="accordion-collapse collapse">-->
-                            <!--                                            <div class="accordion-body">-->
-                            <!--                                                <p class="mb-2 text-muted">-->
-                            <!--                                                    Обычно достаточно назначить группы. Здесь можно вручную-->
-                            <!--                                                    добавить/убрать отдельные права.-->
-                            <!--                                                </p>-->
-                            <!--                                                <label for="id_user_permissions" class="form-label">Права</label>-->
-                            <!--                                                {{ form.user_permissions }}-->
-                            <!--                                            </div>-->
-                            <!--                                        </div>-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
 
                             <!-- Кнопки -->
                             <div class="col-12 d-flex gap-2 mt-2">
