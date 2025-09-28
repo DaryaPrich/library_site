@@ -66,6 +66,19 @@
                 <li class="nav-item"><a class="nav-link" href="/account/">Кабинет</a></li>
                 {% endif %}
 
+                {% if request.user.is_authenticated and request.user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users_list' %}">Пользователи</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'literaturetype_list' %}">Типы литературы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'genre_list' %}">Жанры</a>
+                </li>
+                {% endif %}
+
+
                 <li class="nav-item"><a class="nav-link" href="/about/">О нас</a></li>
                 <li class="nav-item"><a class="nav-link" href="/contact/">Контакты</a></li>
             </ul>

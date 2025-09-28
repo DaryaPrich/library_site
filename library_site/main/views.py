@@ -314,3 +314,64 @@ class UserDeleteView(LoginRequiredMixin, StaffOnlyMixin, DeleteView):
         if self.object.pk == request.user.pk:
             return HttpResponseForbidden("Нельзя удалить самого себя.")
         return super().post(request, *args, **kwargs)
+
+
+from .models import LiteratureType, Genre
+
+
+# ==== LiteratureType CRUD ====
+class LiteratureTypeListView(LoginRequiredMixin, StaffOnlyMixin, ListView):
+    model = LiteratureType
+    template_name = "main/literaturetype_list.html"
+    context_object_name = "types"
+    paginate_by = 20
+    ordering = ["id"]
+
+
+class LiteratureTypeCreateView(LoginRequiredMixin, StaffOnlyMixin, CreateView):
+    model = LiteratureType
+    fields = ["name"]
+    template_name = "main/literaturetype_form.html"
+    success_url = reverse_lazy("literaturetype_list")
+
+
+class LiteratureTypeUpdateView(LoginRequiredMixin, StaffOnlyMixin, UpdateView):
+    model = LiteratureType
+    fields = ["name"]
+    template_name = "main/literaturetype_form.html"
+    success_url = reverse_lazy("literaturetype_list")
+
+
+class LiteratureTypeDeleteView(LoginRequiredMixin, StaffOnlyMixin, DeleteView):
+    model = LiteratureType
+    template_name = "main/literaturetype_confirm_delete.html"
+    success_url = reverse_lazy("literaturetype_list")
+
+
+# ==== Genre CRUD ====
+class GenreListView(LoginRequiredMixin, StaffOnlyMixin, ListView):
+    model = Genre
+    template_name = "main/genre_list.html"
+    context_object_name = "genres"
+    paginate_by = 20
+    ordering = ["id"]
+
+
+class GenreCreateView(LoginRequiredMixin, StaffOnlyMixin, CreateView):
+    model = Genre
+    fields = ["name"]
+    template_name = "main/genre_form.html"
+    success_url = reverse_lazy("genre_list")
+
+
+class GenreUpdateView(LoginRequiredMixin, StaffOnlyMixin, UpdateView):
+    model = Genre
+    fields = ["name"]
+    template_name = "main/genre_form.html"
+    success_url = reverse_lazy("genre_list")
+
+
+class GenreDeleteView(LoginRequiredMixin, StaffOnlyMixin, DeleteView):
+    model = Genre
+    template_name = "main/genre_confirm_delete.html"
+    success_url = reverse_lazy("genre_list")

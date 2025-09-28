@@ -33,4 +33,16 @@ urlpatterns = [
     path('cabinet/', views.cabinet, name='cabinet'),
     path('cabinet_guest/', views.cabinet_guest, name='cabinet_guest'),
 
+    # Типы литературы
+    path("literature-types/", views.LiteratureTypeListView.as_view(), name="literaturetype_list"),
+    path("literature-types/add/", views.LiteratureTypeCreateView.as_view(), name="literaturetype_add"),
+    path("literature-types/<int:pk>/edit/", views.LiteratureTypeUpdateView.as_view(), name="literaturetype_edit"),
+    path("literature-types/<int:pk>/delete/", views.LiteratureTypeDeleteView.as_view(), name="literaturetype_delete"),
+
+    # Жанры
+    path("genres/", views.GenreListView.as_view(), name="genre_list"),
+    path("genres/add/", views.GenreCreateView.as_view(), name="genre_add"),
+    path("genres/<int:pk>/edit/", views.GenreUpdateView.as_view(), name="genre_edit"),
+    path("genres/<int:pk>/delete/", views.GenreDeleteView.as_view(), name="genre_delete"),
+
 ]
