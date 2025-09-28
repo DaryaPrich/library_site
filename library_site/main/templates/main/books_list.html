@@ -68,6 +68,7 @@
         </tr>
         </thead>
         <tbody>
+        {% if books %}
         {% for book in books %}
         <tr>
             <td><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></td>
@@ -112,6 +113,7 @@
             <td colspan="6" class="text-center text-muted">Нет доступных книг.</td>
         </tr>
         {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 
