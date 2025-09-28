@@ -1,8 +1,6 @@
-from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Book
 from .models import CustomUser
 
 
@@ -10,12 +8,6 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password1', 'password2']
-
-
-class BookForm(forms.ModelForm):
-    class Meta:
-        model = Book
-        fields = '__all__'
 
 
 # main/forms.py
@@ -28,11 +20,8 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = [
             "title", "author", "isbn", "year", "description",
-            # "copies_total", "copies_available", 
-            "category",
-            "cover_image",  # <— новое поле (URL обложки)
-            "file_url",  # <— ссылка на книгу
-            "file",  # <— файл книги
+            "literature_type", "genres",
+            "cover_image", "file_url", "file",
         ]
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
@@ -41,10 +30,10 @@ class BookForm(forms.ModelForm):
             "year": forms.NumberInput(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 7}),
             "copies_total": forms.NumberInput(attrs={"class": "form-control"}),
-            "copies_available": forms.NumberInput(attrs={"class": "form-control"}),
-            "category": forms.Select(attrs={"class": "form-select"}),
-            "cover_image": forms.URLInput(attrs={"class": "form-control", "placeholder": "https://..."}),
-            "file_url": forms.URLInput(attrs={"class": "form-control", "placeholder": "https://..."}),
+            "literature_type": forms.Select(attrs={"class": "form-select"}),
+            "genres": forms.SelectMultiple(attrs={"class": "form-control", "size": 6}),
+            "cover_image": forms.URLInput(attrs={"class": "form-control"}),
+            "file_url": forms.URLInput(attrs={"class": "form-control"}),
             "file": forms.ClearableFileInput(attrs={"class": "form-control"}),
         }
         help_texts = {

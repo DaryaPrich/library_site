@@ -3,8 +3,15 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Название категории')
+class LiteratureType(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Тип литературы")
+
+    def __str__(self):
+        return self.name
+
+
+class Genre(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Жанр")
 
     def __str__(self):
         return self.name
@@ -16,21 +23,25 @@ class Book(models.Model):
     isbn = models.CharField(max_length=20, blank=True, null=True)
     year = models.PositiveIntegerField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    cover_image = models.URLField(blank=True, null=True)  # <-- добавили поле обложки
-    # остальное как было
-    copies_total = models.PositiveIntegerField(default=1)
-    copies_available = models.PositiveIntegerField(default=1)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
-    file_url = models.URLField(blank=True, null=True)
-    file = models.FileField(upload_to='books/', blank=True, null=True)
+    cover_image = models.URLField(blank=True, null=True)
 
-    # models.py
+    # copies_total = models.PositiveIntegerField(default=1)
+    # copies_available = models.PositiveIntegerField(default=1)
+
+    literature_type = models.ForeignKey(
+        LiteratureType, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    genres = models.ManyToManyField(Genre, blank=True, related_name="books")
+
+    file_url = models.URLField(blank=True, null=True)
+    file = models.FileField(upload_to="books/", blank=True, null=True)
+
     def get_access_url(self):
         if self.file_url:
             return self.file_url
         if self.file:
             return self.file.url
-        return ''
+        return ""
 
     def __str__(self):
         return f"{self.title} — {self.author}"
@@ -42,7 +53,12 @@ class CustomUser(AbstractUser):
         ('librarian', 'Библиотекарь'),
         ('admin', 'Администратор'),
     ]
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='reader', verbose_name='Роль')
+    role = models.CharField(
+        max_length=10,
+        choices=ROLE_CHOICES,
+        default='reader',
+        verbose_name='Роль'
+    )
 
 
 class Booking(models.Model):
@@ -70,4 +86,4 @@ class ReadHistory(models.Model):
     read_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'book')  # один раз достаточно
+        unique_together = ('user', 'book')

@@ -19,24 +19,20 @@
 
         <div id="booksCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-
                 {% for slide in carousel_slides %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
                     <div class="d-flex gap-3 justify-content-start flex-wrap">
                         {% for book in slide %}
                         <a href="{% url 'book_detail' book.pk %}" class="text-decoration-none" title="{{ book.title }}">
-                            <img
-                                    src="{{ book.cover_image }}"
-                                    alt="{{ book.title }}"
-                                    class="rounded shadow-sm"
-                                    style="height: 160px; width: 110px; object-fit: cover;"
-                            >
+                            <img src="{{ book.cover_image }}"
+                                 alt="{{ book.title }}"
+                                 class="rounded shadow-sm"
+                                 style="height: 160px; width: 110px; object-fit: cover;">
                         </a>
                         {% endfor %}
                     </div>
                 </div>
                 {% endfor %}
-
             </div>
 
             <button class="carousel-control-prev" type="button" data-bs-target="#booksCarousel" data-bs-slide="prev">
@@ -57,7 +53,8 @@
             <th>Название</th>
             <th>Автор</th>
             <th>Год</th>
-            <th>Категория</th>
+            <th>Тип литературы</th>
+            <th>Жанры</th>
             <th>Действия</th>
         </tr>
         <!-- строка фильтров по колонкам -->
@@ -65,7 +62,8 @@
             <th><input class="form-control form-control-sm" type="text" placeholder="Поиск по названию"></th>
             <th><input class="form-control form-control-sm" type="text" placeholder="По автору"></th>
             <th><input class="form-control form-control-sm" type="text" placeholder="По году"></th>
-            <th><input class="form-control form-control-sm" type="text" placeholder="По категории"></th>
+            <th><input class="form-control form-control-sm" type="text" placeholder="По типу"></th>
+            <th><input class="form-control form-control-sm" type="text" placeholder="По жанрам"></th>
             <th></th>
         </tr>
         </thead>
@@ -75,7 +73,14 @@
             <td><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></td>
             <td>{{ book.author }}</td>
             <td>{{ book.year }}</td>
-            <td>{{ book.category.name }}</td>
+            <td>{{ book.literature_type.name }}</td>
+            <td>
+                {% for g in book.genres.all %}
+                {{ g.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                <span class="text-muted">—</span>
+                {% endfor %}
+            </td>
             <td class="text-nowrap">
                 {% if book.file or book.file_url %}
                 {% if user.is_authenticated %}
@@ -101,7 +106,7 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="5" class="text-center text-muted">Нет доступных книг.</td>
+            <td colspan="6" class="text-center text-muted">Нет доступных книг.</td>
         </tr>
         {% endfor %}
         </tbody>

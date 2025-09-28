@@ -53,6 +53,18 @@
                 <div class="form-text">URL изображения (показывается в карточке книги).</div>
             </div>
 
+            <div class="col-md-6">
+                <label for="id_literature_type" class="form-label">Тип литературы</label>
+                {{ form.literature_type }}
+            </div>
+
+            <div class="col-md-6">
+                <label for="id_genres" class="form-label">Жанры</label>
+                {{ form.genres }}
+                <div class="form-text">Можно выбрать несколько жанров.</div>
+            </div>
+
+
             <div class="col-12">
                 <label class="form-label" for="id_file_url">Ссылка на книгу</label>
                 {{ form.file_url }}

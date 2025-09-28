@@ -25,7 +25,6 @@ def _chunked(seq, size):
 
 
 def books_list(request):
-    # все книги для каталога
     books = Book.objects.all()
 
     # === Подборка для карусели ===
@@ -33,28 +32,28 @@ def books_list(request):
     qs = Book.objects.exclude(cover_image__isnull=True).exclude(cover_image="")
 
     if request.user.is_authenticated:
-        # ID всех прочитанных пользователем книг
         read_ids = list(
             ReadHistory.objects.filter(user=request.user)
             .order_by("-read_at")
             .values_list("book_id", flat=True)
         )
         if read_ids:
-            # категории этих книг
-            cats = list(Book.objects.filter(id__in=read_ids).values_list("category_id", flat=True))
-            # рекомендации из этих категорий (не включая уже прочитанные)
-            rec = qs.filter(category_id__in=cats).exclude(id__in=read_ids)[:18]
+            # типы литературы этих книг
+            types = list(
+                Book.objects.filter(id__in=read_ids).values_list("literature_type_id", flat=True)
+            )
+            # рекомендации из этих типов (не включая уже прочитанные)
+            rec = qs.filter(literature_type_id__in=types).exclude(id__in=read_ids)[:18]
             if rec:
                 carousel_title = "Рекомендовано вам"
                 carousel_books = list(rec)
             else:
-                carousel_books = list(qs.order_by("-copies_total")[:18])
+                carousel_books = list(qs.order_by("-year")[:18])  # сортируем по году
         else:
-            carousel_books = list(qs.order_by("-copies_total")[:18])
+            carousel_books = list(qs.order_by("-year")[:18])
     else:
-        carousel_books = list(qs.order_by("-copies_total")[:18])
+        carousel_books = list(qs.order_by("-year")[:18])
 
-    # режем на слайды по 6 обложек
     carousel_slides = _chunked(carousel_books, 6)
 
     context = {

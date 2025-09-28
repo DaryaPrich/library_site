@@ -8,12 +8,21 @@
             <h2 class="card-title display-5 mb-3">{{ book.title }}</h2>
             <p class="text-muted">Автор: <strong>{{ book.author }}</strong></p>
             <p class="text-muted">Год: <strong>{{ book.year }}</strong></p>
-            <p class="text-muted">Категория: <strong>{{ book.category.name }}</strong></p>
+
+            <p class="text-muted">Тип литературы: <strong>{{ book.literature_type }}</strong></p>
+
+            {% if book.genres.all %}
+            <p class="text-muted">
+                Жанры:
+                <strong>
+                    {% for g in book.genres.all %}
+                    {{ g.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </strong>
+            </p>
+            {% endif %}
 
             <ul class="list-group mb-3">
-                <!--                <li class="list-group-item">-->
-                <!--                    Доступно: {{ book.copies_available }} из {{ book.copies_total }}-->
-                <!--                </li>-->
                 {% if book.description %}
                 <li class="list-group-item">
                     <strong>Описание:</strong><br>
@@ -31,13 +40,13 @@
             <div class="d-flex flex-wrap">
                 {% if user.is_authenticated %}
                 {% if not book.is_taken %}
-
+                <!-- тут можно добавить кнопку "Взять книгу", если логика будет -->
                 {% else %}
                 <a href="{% url 'return_book' book.id %}" class="btn btn-warning me-2 mb-2">🔄 Вернуть книгу</a>
                 {% endif %}
                 {% endif %}
 
-                {% if user.role in 'admin librarian' %}
+                {% if user.role == 'admin' or user.role == 'librarian' %}
                 <a href="{% url 'edit_book' book.id %}" class="btn btn-primary me-2 mb-2">✏ Редактировать</a>
                 {% endif %}
                 {% if user.role == 'admin' %}
