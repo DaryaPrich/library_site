@@ -80,13 +80,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'users_list' %}">Пользователи</a>
                 </li>
+
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'literaturetype_list' %}">Типы литературы</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'genre_list' %}">Жанры</a>
                 </li>
-                {% endif %}
 
 
                 <li class="nav-item dropdown">
