@@ -326,7 +326,7 @@ from .models import LiteratureType, Genre
 
 
 # ==== LiteratureType CRUD ====
-class LiteratureTypeListView(LoginRequiredMixin, ListView):
+class LiteratureTypeListView(ListView):
     model = LiteratureType
     template_name = "main/literaturetype_list.html"
     context_object_name = "types"
@@ -355,7 +355,7 @@ class LiteratureTypeDeleteView(LoginRequiredMixin, StaffOnlyMixin, DeleteView):
 
 
 # ==== Genre CRUD ====
-class GenreListView(LoginRequiredMixin, ListView):
+class GenreListView(ListView):
     model = Genre
     template_name = "main/genre_list.html"
     context_object_name = "genres"
