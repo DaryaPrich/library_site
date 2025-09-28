@@ -21,6 +21,7 @@ class BookForm(forms.ModelForm):
         fields = [
             "title", "author", "isbn", "year", "description",
             "literature_type", "genres",
+            "udc", "bbc", "marc",  # ← добавили
             "cover_image", "file_url", "file",
         ]
         widgets = {
@@ -35,6 +36,10 @@ class BookForm(forms.ModelForm):
             "cover_image": forms.URLInput(attrs={"class": "form-control"}),
             "file_url": forms.URLInput(attrs={"class": "form-control"}),
             "file": forms.ClearableFileInput(attrs={"class": "form-control"}),
+
+            "udc": forms.TextInput(attrs={"class": "form-control"}),
+            "bbc": forms.TextInput(attrs={"class": "form-control"}),
+            "marc": forms.TextInput(attrs={"class": "form-control"}),
         }
         help_texts = {
             "file": "При наличии файла он используется в приоритете над ссылкой.",

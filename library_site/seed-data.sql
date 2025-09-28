@@ -40,7 +40,7 @@ INSERT INTO main_genre (id, name) VALUES
 -- === КНИГИ ===
 INSERT INTO main_book (
     id, title, author, isbn, year, description, cover_image,
-    literature_type_id, file_url
+    literature_type_id, file_url, udc, bbc, marc
 )
 VALUES
 -- Фантастика (художественная литература)
@@ -48,93 +48,109 @@ VALUES
  'Антиутопия о тоталитарном обществе.',
  'https://covers.storytel.com/jpg-640/9782291090830.58b5cb0d-d3ca-43e2-bfa7-4095b5a0ef41?optimize=high&quality=70&width=600',
  1,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '82-3', '84.4', 'MARC-1984'),
 
 (4, 'Марсианин', 'Энди Вейер', '978-5-389-09706-7', 2011,
  'Инженер-ботаник выживает на Марсе.',
  'https://covers.storytel.com/jpg-640/9785171282417.4516bbb5-4b85-4f45-a134-82062212ca9e?optimize=high&quality=70&width=600',
  1,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '52-793', '22.3', 'MARC-MARS'),
 
 (5, 'Дюна', 'Фрэнк Герберт', '978-5-17-083845-6', 1965,
  'Эпическая сага о пустынной планете.',
  'https://covers.storytel.com/jpg-640/9788726772647.e7920256-7c11-47f4-bb5d-c31d6f423791?optimize=high&quality=70&width=600',
  1,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '82-3', '84.5', 'MARC-DUNE'),
 
 (6, '451 градус по Фаренгейту', 'Рэй Брэдбери', '978-5-17-087107-1', 1953,
  'Общество, где книги под запретом.',
  'https://covers.storytel.com/jpg-640/9786257737241.8922d681-e9a6-45a2-90b5-3944f5431eaa?optimize=high&quality=70&width=600',
  1,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '82-3', '84.6', 'MARC-451'),
 
 (7, 'Автостопом по галактике', 'Дуглас Адамс', '978-5-389-09211-6', 1979,
  'Юмористическое путешествие по Вселенной.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  1,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '82-3', '84.7', 'MARC-HHG'),
 
 -- Наука (научная литература)
 (2, 'Краткая история времени', 'Стивен Хокинг', '978-5-17-118367-8', 1988,
  'О природе времени и вселенной.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  2,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '52', '22.1', 'MARC-TIME'),
 
 (8, 'Эгоистичный ген', 'Ричард Докинз', '978-5-17-057875-8', 1976,
  'О биологии и эволюции.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  2,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '57.01', '28.1', 'MARC-GENE'),
 
 (9, 'Параллельные миры', 'Митио Каку', '978-5-389-05310-0', 2005,
  'Физика многомерных вселенных.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  2,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '53.1', '22.9', 'MARC-MULTI'),
 
 (10, 'Структура научных революций', 'Томас Кун', '978-5-02-025451-3', 1962,
  'Парадигмы в науке.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  2,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '001.8', '30.1', 'MARC-KUHN'),
 
 (11, 'Самая красивая история о науке', 'Юбер Рив', '978-5-699-27586-2', 2007,
  'Наука для всех.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  2,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '001', '30.5', 'MARC-RIVE'),
 
 -- История (научно-популярная литература)
 (3, 'История России', 'Николай Карамзин', '978-5-17-118368-5', 1816,
  'Классический исторический труд.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  3,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '94(47)', '63.3', 'MARC-RUS'),
 
 (12, 'Государь', 'Никколо Макиавелли', '978-5-389-02029-4', 1532,
  'Политическая философия.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  3,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '32', '66.1', 'MARC-MACHI'),
 
 (13, 'История Европы', 'Норман Дэвис', '978-5-17-070816-1', 1996,
  'Обширный труд по европейской истории.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  3,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '94(4)', '63.3', 'MARC-EURO'),
 
 (14, 'Вторая мировая война', 'Уинстон Черчилль', '978-5-699-03474-3', 1948,
  'Мемуары и анализ событий.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  3,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'),
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '94(100)', '63.3', 'MARC-WW2'),
 
 (15, 'История древнего мира', 'Иван Артамонов', '978-5-17-060343-5', 1954,
  'История античных цивилизаций.',
  'https://img.freepik.com/premium-vector/book-icon-black-line-art-vector-logo_1223784-35762.jpg',
  3,
- 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
+ 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+ '94(0)', '63.3', 'MARC-ANCIENT');
+
 
 
 -- === ЖАНРЫ ДЛЯ КНИГ ===

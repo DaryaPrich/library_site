@@ -25,13 +25,13 @@ class Book(models.Model):
     description = models.TextField(blank=True, null=True)
     cover_image = models.URLField(blank=True, null=True)
 
-    # copies_total = models.PositiveIntegerField(default=1)
-    # copies_available = models.PositiveIntegerField(default=1)
+    literature_type = models.ForeignKey("LiteratureType", on_delete=models.SET_NULL, null=True, blank=True)
+    genres = models.ManyToManyField("Genre", blank=True, related_name="books")
 
-    literature_type = models.ForeignKey(
-        LiteratureType, on_delete=models.SET_NULL, null=True, blank=True
-    )
-    genres = models.ManyToManyField(Genre, blank=True, related_name="books")
+    # новые поля
+    udc = models.CharField("УДК", max_length=50, blank=True, null=True)
+    bbc = models.CharField("ББК", max_length=50, blank=True, null=True)
+    marc = models.CharField("MARC", max_length=100, blank=True, null=True)
 
     file_url = models.URLField(blank=True, null=True)
     file = models.FileField(upload_to="books/", blank=True, null=True)

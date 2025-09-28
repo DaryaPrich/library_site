@@ -37,6 +37,20 @@
             </div>
             {% endif %}
 
+            {% if user.is_authenticated and user.role == 'admin' or user.role == 'librarian' %}
+
+            {% if book.udc %}
+            <p class="text-muted">УДК: <strong>{{ book.udc }}</strong></p>
+            {% endif %}
+            {% if book.bbc %}
+            <p class="text-muted">ББК: <strong>{{ book.bbc }}</strong></p>
+            {% endif %}
+            {% if book.marc %}
+            <p class="text-muted">MARC: <strong>{{ book.marc }}</strong></p>
+            {% endif %}
+            {% endif %}
+
+
             <div class="d-flex flex-wrap">
                 {% if user.is_authenticated %}
                 {% if not book.is_taken %}
