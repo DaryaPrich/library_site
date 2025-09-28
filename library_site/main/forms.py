@@ -69,6 +69,7 @@ class UserForm(forms.ModelForm):
             "username", "email", "first_name", "last_name",
             "is_active", "is_staff", "is_superuser",
             "groups", "password",
+            # "role",  # ← добавляем роль
         ]
         widgets = {
             "username": forms.TextInput(attrs={"class": "form-control"}),

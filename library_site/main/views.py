@@ -266,12 +266,36 @@ class UserCreateView(LoginRequiredMixin, StaffOnlyMixin, CreateView):
     template_name = "main/user_form.html"
     success_url = reverse_lazy("users_list")
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = self.object
+        if user.groups.filter(name="Администраторы").exists():
+            user.role = "admin"
+        elif user.groups.filter(name="Библиотекари").exists():
+            user.role = "librarian"
+        else:
+            user.role = "reader"
+        user.save()
+        return response
+
 
 class UserUpdateView(LoginRequiredMixin, StaffOnlyMixin, UpdateView):
     model = User
     form_class = UserForm
     template_name = "main/user_form.html"
     success_url = reverse_lazy("users_list")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = self.object
+        if user.groups.filter(name="Администраторы").exists():
+            user.role = "admin"
+        elif user.groups.filter(name="Библиотекари").exists():
+            user.role = "librarian"
+        else:
+            user.role = "reader"
+        user.save()
+        return response
 
 
 from django.http import HttpResponseForbidden
