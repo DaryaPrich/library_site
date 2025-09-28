@@ -16,6 +16,7 @@
             <td>
                 <a href="{% url 'genre_edit' g.id %}" class="btn btn-sm btn-primary">Изменить</a>
                 <a href="{% url 'genre_delete' g.id %}" class="btn btn-sm btn-danger">Удалить</a>
+                <a href="{% url 'books_list' %}?genre={{ g.id }}" class="btn btn-sm btn-info">Показать книги</a>
             </td>
         </tr>
         {% endfor %}

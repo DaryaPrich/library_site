@@ -5,7 +5,6 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import check_password, make_password
-from django.shortcuts import get_object_or_404
 
 from .forms import BookForm  # если формы нет — создадим ниже
 from .forms import RegisterForm
@@ -16,7 +15,7 @@ def index(request):
     return render(request, 'main/index.html')
 
 
-from .models import Book, ReadHistory
+from .models import ReadHistory
 
 
 def _chunked(seq, size):
@@ -27,7 +26,16 @@ def _chunked(seq, size):
 def books_list(request):
     books = Book.objects.all()
 
-    # === Подборка для карусели ===
+    # фильтрация по GET-параметрам
+    genre_id = request.GET.get("genre")
+    type_id = request.GET.get("type")
+
+    if genre_id:
+        books = books.filter(genres__id=genre_id)
+    if type_id:
+        books = books.filter(literature_type_id=type_id)
+
+    # === Подборка для карусели (оставляем как есть) ===
     carousel_title = "Популярное"
     qs = Book.objects.exclude(cover_image__isnull=True).exclude(cover_image="")
 
@@ -38,17 +46,15 @@ def books_list(request):
             .values_list("book_id", flat=True)
         )
         if read_ids:
-            # типы литературы этих книг
             types = list(
                 Book.objects.filter(id__in=read_ids).values_list("literature_type_id", flat=True)
             )
-            # рекомендации из этих типов (не включая уже прочитанные)
             rec = qs.filter(literature_type_id__in=types).exclude(id__in=read_ids)[:18]
             if rec:
                 carousel_title = "Рекомендовано вам"
                 carousel_books = list(rec)
             else:
-                carousel_books = list(qs.order_by("-year")[:18])  # сортируем по году
+                carousel_books = list(qs.order_by("-year")[:18])
         else:
             carousel_books = list(qs.order_by("-year")[:18])
     else:
@@ -375,3 +381,30 @@ class GenreDeleteView(LoginRequiredMixin, StaffOnlyMixin, DeleteView):
     model = Genre
     template_name = "main/genre_confirm_delete.html"
     success_url = reverse_lazy("genre_list")
+
+
+from django.views.generic import TemplateView
+
+
+class PrivacyPolicyView(TemplateView):
+    template_name = "main/privacy_policy.html"
+
+
+from django.shortcuts import get_object_or_404
+from .models import Genre, Book
+
+
+class GenreBooksView(LoginRequiredMixin, ListView):
+    model = Book
+    template_name = "main/books_by_genre.html"
+    context_object_name = "books"
+
+    def get_queryset(self):
+        genre_id = self.kwargs["pk"]
+        return Book.objects.filter(genres__id=genre_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        genre = get_object_or_404(Genre, id=self.kwargs["pk"])
+        context["genre"] = genre
+        return context

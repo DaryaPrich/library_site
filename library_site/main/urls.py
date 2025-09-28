@@ -45,4 +45,8 @@ urlpatterns = [
     path("genres/<int:pk>/edit/", views.GenreUpdateView.as_view(), name="genre_edit"),
     path("genres/<int:pk>/delete/", views.GenreDeleteView.as_view(), name="genre_delete"),
 
+    path("privacy/", views.PrivacyPolicyView.as_view(), name="privacy_policy"),
+
+    path("genres/<int:pk>/books/", views.GenreBooksView.as_view(), name="genre_books"),
+
 ]

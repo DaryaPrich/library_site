@@ -81,6 +81,10 @@
 
                 <li class="nav-item"><a class="nav-link" href="/about/">О нас</a></li>
                 <li class="nav-item"><a class="nav-link" href="/contact/">Контакты</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'privacy_policy' %}">Политика конфиденциальности</a>
+                </li>
+
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}

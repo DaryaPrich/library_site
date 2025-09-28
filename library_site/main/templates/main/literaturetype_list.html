@@ -16,6 +16,7 @@
             <td>
                 <a href="{% url 'literaturetype_edit' t.id %}" class="btn btn-sm btn-primary">Изменить</a>
                 <a href="{% url 'literaturetype_delete' t.id %}" class="btn btn-sm btn-danger">Удалить</a>
+                <a href="{% url 'books_list' %}?type={{ t.id }}" class="btn btn-sm btn-info">Показать книги</a>
             </td>
         </tr>
         {% endfor %}
