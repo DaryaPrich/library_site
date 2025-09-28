@@ -1,0 +1,167 @@
+{% extends "main/base.html" %}
+{% block title %}Новости{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Новости</h2>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Новость 1 -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="https://picsum.photos/400/200?random=1" class="card-img-top" alt="Новость 1">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Новые поступления в библиотеку</h5>
+                    <p class="card-text text-muted">В фонд добавлено более 50 новых изданий.</p>
+                    <div class="mt-auto">
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#news1Modal">
+                            Подробнее
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Новость 2 -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="https://picsum.photos/400/200?random=2" class="card-img-top" alt="Новость 2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Запуск электронного читального зала</h5>
+                    <p class="card-text text-muted">Теперь книги доступны онлайн в формате PDF.</p>
+                    <div class="mt-auto">
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#news2Modal">
+                            Подробнее
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Новость 3 -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="https://picsum.photos/400/200?random=3" class="card-img-top" alt="Новость 3">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Студенческая неделя чтения</h5>
+                    <p class="card-text text-muted">Проводим викторины и встречи с писателями.</p>
+                    <div class="mt-auto">
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#news3Modal">
+                            Подробнее
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Новость 4 -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="https://picsum.photos/400/200?random=4" class="card-img-top" alt="Новость 4">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Книжный клуб открыл новый сезон</h5>
+                    <p class="card-text text-muted">Темы встреч — классика XX века и современные авторы.</p>
+                    <div class="mt-auto">
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#news4Modal">
+                            Подробнее
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Новость 5 -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="https://picsum.photos/400/200?random=5" class="card-img-top" alt="Новость 5">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Партнёрство с электронными библиотеками</h5>
+                    <p class="card-text text-muted">Доступ к дополнительным ресурсам для студентов и преподавателей.</p>
+                    <div class="mt-auto">
+                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#news5Modal">
+                            Подробнее
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Модальные окна -->
+<div class="modal fade" id="news1Modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Новые поступления в библиотеку</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>В библиотеку поступили новые книги по художественной литературе, истории и естественным наукам. Все
+                    издания уже доступны для бронирования.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="news2Modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Запуск электронного читального зала</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Пользователи теперь могут читать книги онлайн без необходимости скачивания. Доступ осуществляется
+                    через личный кабинет.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="news3Modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Студенческая неделя чтения</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>На этой неделе проходят мероприятия: литературные викторины, мастер-классы и встречи с современными
+                    авторами.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="news4Modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Книжный клуб открыл новый сезон</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>В новом сезоне участники клуба будут обсуждать классику XX века и современных авторов. Приглашаем
+                    всех желающих!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="news5Modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Партнёрство с электронными библиотеками</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Подписано соглашение о партнёрстве с несколькими электронными библиотечными сервисами, что расширяет
+                    доступ студентов и преподавателей к учебным материалам.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -390,6 +390,26 @@ class PrivacyPolicyView(TemplateView):
     template_name = "main/privacy_policy.html"
 
 
+def new_books(request):
+    books = Book.objects.order_by("-id")[:5]  # последние 5 книг
+    return render(request, "main/new_books.html", {"books": books})
+
+
+# Новинки книг
+class NewBooksView(TemplateView):
+    template_name = "main/new_books.html"
+
+
+# Новости
+class NewsListView(TemplateView):
+    template_name = "main/news_list.html"
+
+
+# Карточка новости
+class NewsDetailView(TemplateView):
+    template_name = "main/news_detail.html"
+
+
 from django.shortcuts import get_object_or_404
 from .models import Genre, Book
 

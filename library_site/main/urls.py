@@ -46,6 +46,9 @@ urlpatterns = [
     path("genres/<int:pk>/delete/", views.GenreDeleteView.as_view(), name="genre_delete"),
 
     path("privacy/", views.PrivacyPolicyView.as_view(), name="privacy_policy"),
+    path("new-books/", views.new_books, name="new_books"),
+    path("news/", views.NewsListView.as_view(), name="news_list"),
+    path("news/<int:pk>/", views.NewsDetailView.as_view(), name="news_detail"),
 
     path("genres/<int:pk>/books/", views.GenreBooksView.as_view(), name="genre_books"),
 
