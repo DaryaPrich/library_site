@@ -118,6 +118,7 @@
     {% if user.is_authenticated %}
     {% if user.role == 'admin' or user.role == 'librarian' %}
     <a href="{% url 'add_book' %}" class="btn btn-success mt-3">➕ Добавить книгу</a>
+    <a href="{% url 'export_books_excel' %}" class="btn btn-outline-info mt-3">⬇️ Выгрузить в Excel</a>
     {% endif %}
     {% endif %}
 </div>

@@ -52,4 +52,6 @@ urlpatterns = [
 
     path("genres/<int:pk>/books/", views.GenreBooksView.as_view(), name="genre_books"),
 
+    path("books/export/excel/", views.export_books_excel, name="export_books_excel"),
+
 ]

@@ -428,3 +428,42 @@ class GenreBooksView(LoginRequiredMixin, ListView):
         genre = get_object_or_404(Genre, id=self.kwargs["pk"])
         context["genre"] = genre
         return context
+
+
+import openpyxl
+from django.http import HttpResponse
+
+
+@login_required
+def export_books_excel(request):
+    if request.user.role not in ["admin", "librarian"]:
+        return redirect("books_list")
+
+    books = Book.objects.all()
+
+    # создаём Excel
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Книги"
+
+    # заголовки
+    ws.append(["ID", "Название", "Автор", "Год", "Тип литературы", "Жанры"])
+
+    for book in books:
+        genres = ", ".join([g.name for g in book.genres.all()])
+        ws.append([
+            book.id,
+            book.title,
+            book.author,
+            book.year,
+            book.literature_type.name if book.literature_type else "",
+            genres
+        ])
+
+    # отдаём в ответ
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = 'attachment; filename="books.xlsx"'
+    wb.save(response)
+    return response
