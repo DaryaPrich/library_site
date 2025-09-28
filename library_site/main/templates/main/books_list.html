@@ -82,14 +82,16 @@
                 {% endfor %}
             </td>
             <td class="text-nowrap">
-                {% if book.file or book.file_url %}
                 {% if user.is_authenticated %}
-                <a href="{% url 'read_book' book.id %}" class="btn btn-sm btn-success me-2 mb-2">Читать</a>
-                {% else %}
-                <a href="{% url 'login' %}" class="btn btn-sm btn-outline-success me-2 mb-2">Читать (войти)</a>
-                {% endif %}
+                {% if book.file %}
+                <a href="{{ book.file.url }}" target="_blank" class="btn btn-sm btn-success me-2 mb-2">Читать</a>
+                {% elif book.file_url %}
+                <a href="{{ book.file_url }}" target="_blank" class="btn btn-sm btn-success me-2 mb-2">Читать</a>
                 {% else %}
                 <span class="badge bg-secondary me-2 mb-2">Нет файла/ссылки</span>
+                {% endif %}
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-sm btn-outline-success me-2 mb-2">Читать (войти)</a>
                 {% endif %}
 
                 {% if user.is_authenticated %}
@@ -103,6 +105,7 @@
                 {% endif %}
                 {% endif %}
             </td>
+
         </tr>
         {% empty %}
         <tr>
