@@ -87,12 +87,7 @@ def contact(request):
     return render(request, 'main/contact.html')
 
 
-def login_view(request):
-    return render(request, 'main/login.html')
-
-
-def register_view(request):
-    return render(request, 'main/register.html')
+from django.contrib.auth.models import Group
 
 
 def register_view(request):
@@ -100,6 +95,13 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            # назначаем группу "Читатели"
+            try:
+                readers_group = Group.objects.get(name="Читатели")
+                user.groups.add(readers_group)
+            except Group.DoesNotExist:
+                pass  # если группы нет, не падаем
+
             login(request, user)
             return redirect('account')
     else:
