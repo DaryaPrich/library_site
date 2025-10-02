@@ -40,6 +40,8 @@
             {% if user.is_authenticated and user.role == 'admin' or user.role == 'librarian' %}
 
             {% if book.udc %}
+            <p class="text-muted">ISBN: <strong>{{ book.isbn }}</strong></p>
+
             <p class="text-muted">УДК: <strong>{{ book.udc }}</strong></p>
             {% endif %}
             {% if book.bbc %}
